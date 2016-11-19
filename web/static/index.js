@@ -1,14 +1,8 @@
-import '../../deps/phoenix/priv/static/phoenix'
-import React, { Component } from 'react'
-import { render } from 'react-dom'
+import '../../deps/phoenix/priv/static/phoenix';
+import React, { Component } from 'react';
+import { render } from 'react-dom';
 
-class App extends Component {
-
-    render () {
-        return <h1>PiuPiu</h1>;
-    }
-
-}
+import App from './js/App';
 
 render(
     <App />,

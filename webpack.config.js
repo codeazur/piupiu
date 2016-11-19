@@ -6,6 +6,7 @@ const validate = require('webpack-validator');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+const pkg = require('./package.json');
 const env = process.env.MIX_ENV || 'dev';
 
 const publicPath = 'http://localhost:4001/';
@@ -13,7 +14,6 @@ const hot = 'webpack-hot-middleware/client?path=' + publicPath + '__webpack_hmr'
 
 const PATHS = {
     src: path.join(__dirname, 'web/static'),
-    style: path.join(__dirname, 'web/static', 'index.css'),
     dest: path.join(__dirname, 'priv/static'),
 };
 
@@ -75,7 +75,7 @@ const setupCSS = paths => {
         module: {
             loaders: [{
                 test: /\.css$/,
-                loaders: ['style', 'css'],
+                loader: 'style-loader!css-loader',
                 include: paths
             }]
         }
@@ -87,7 +87,7 @@ const extractCSS = paths => {
         module: {
             loaders: [{
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract('style', 'css'),
+                loader: ExtractTextPlugin.extract('style-loader', 'css-loader'),
                 include: paths
             }]
         },
@@ -106,14 +106,17 @@ switch (env) {
             common,
             {
                 entry: {
-                    style: PATHS.style,
-                    app: [ 'babel-polyfill', PATHS.src ]
-                }
+                    app: ['babel-polyfill', PATHS.src],
+                    vendor: Object.keys(pkg.dependencies)
+                },
+                plugins: [
+                    new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor.js')
+                ]
             },
             clean(PATHS.dest),
             setFreeVariable('process.env.NODE_ENV', 'production'),
             uglifyJS(),
-            extractCSS(PATHS.style)
+            extractCSS(PATHS.src)
         );
         break;
     default:
@@ -121,18 +124,17 @@ switch (env) {
             common,
             {
                 entry: {
-                    style: PATHS.style,
-                    app: [ 'babel-polyfill', hot, PATHS.src ],
+                    app: ['babel-polyfill', hot, PATHS.src],
                 },
                 output: {
                     publicPath: publicPath
                 },
-                devtool: 'eval-source-map',
                 plugins: [
                     new webpack.HotModuleReplacementPlugin()
-                ]
+                ],
+                devtool: 'eval-source-map'
             },
-            setupCSS(PATHS.style)
+            setupCSS(PATHS.src)
         );
 }
 

@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
         <title>Piupiu</title>
-        <link rel="stylesheet" href="<%= static_path(@conn, "/css/style.css") %>">
+<%= if Mix.env == :prod do %>
+        <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>" />
+<% end %>
     </head>
 
     <body>
         <div id="app"></div>
 <%= if Mix.env == :dev do %>
-        <script src="http://localhost:4001/js/app.js"></script>
+        <script src="http://localhost:4001/js/app.js" defer></script>
 <% else %>
-        <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+        <script src="<%= static_path(@conn, "/js/vendor.js") %>" defer></script>
+        <script src="<%= static_path(@conn, "/js/app.js") %>" defer></script>
 <% end %>
     </body>
 </html>
