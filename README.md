@@ -1,14 +1,20 @@
 # Piupiu
 
+Federated Social Network Thing.
+
+## Development
+
 To start your Phoenix app:
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Start Phoenix endpoint with `mix phoenix.server`
+  * `mix deps.get` installs dependencies
+  * `mix ecto.create && mix ecto.migrate` creates and migrates your database
+  * `mix phoenix.server` starts Phoenix endpoint
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+## Production
+
+Please [check the deployment guides](http://www.phoenixframework.org/docs/deployment).
 
 ## Learn more
 
