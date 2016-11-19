@@ -19,7 +19,7 @@ const PATHS = {
 
 const common = {
     output: {
-        path: path.join(PATHS.dest),
+        path: PATHS.dest,
         filename: 'js/[name].js'
     },
     resolve: {
