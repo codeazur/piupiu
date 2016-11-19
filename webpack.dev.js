@@ -17,11 +17,13 @@ app.use(require('webpack-hot-middleware')(compiler, {
 	log: console.log
 }));
 
-app.listen(4001, 'localhost', err => {
+var port = ((process.env.PORT | 0) || 4000) + 1;
+
+app.listen(port, 'localhost', err => {
 	if (err) {
 		return console.error(err);
 	}
-	console.log('Running HMR Dev Server using http://localhost:4001');
+	console.log('Running HMR Dev Server using http://localhost:' + port);
 });
 
 // Exit on end of STDIN

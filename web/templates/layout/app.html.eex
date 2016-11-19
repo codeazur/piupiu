@@ -1,3 +1,10 @@
+<%
+port = Application.get_env(:piupiu, Piupiu.Endpoint, 4000)[:http][:port]
+port_hmr = cond do 
+    Kernel.is_binary(port) -> String.to_integer(port) + 1
+    Kernel.is_integer(port) -> port + 1
+end
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -15,7 +22,7 @@
     <body>
         <div id="app"></div>
 <%= if Mix.env == :dev do %>
-        <script src="http://localhost:4001/js/app.js" defer></script>
+        <script src="http://localhost:<%= port_hmr %>/js/app.js" defer></script>
 <% else %>
         <script src="<%= static_path(@conn, "/js/vendor.js") %>" defer></script>
         <script src="<%= static_path(@conn, "/js/app.js") %>" defer></script>

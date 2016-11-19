@@ -12,6 +12,10 @@ To start your Phoenix app:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
+To run the endpoint on a different port, set the `PORT` env variable: `PORT=8765 mix phoenix.server`.
+
+The HMR dev server runs on `PORT + 1` (default: 4001).
+
 ## Production
 
 Please [check the deployment guides](http://www.phoenixframework.org/docs/deployment).

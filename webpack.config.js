@@ -9,9 +9,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const pkg = require('./package.json');
 const env = process.env.MIX_ENV || 'dev';
 
-const publicPath = 'http://localhost:4001/';
-const hot = 'webpack-hot-middleware/client?path=' + publicPath + '__webpack_hmr';
-
 const PATHS = {
     src: path.join(__dirname, 'web/static'),
     dest: path.join(__dirname, 'priv/static'),
@@ -101,6 +98,7 @@ const extractCSS = paths => {
 let config;
 
 switch (env) {
+
     case 'prod':
         config = merge(
             common,
@@ -119,12 +117,16 @@ switch (env) {
             extractCSS(PATHS.src)
         );
         break;
+
     default:
+        const port = ((process.env.PORT | 0) || 4000) + 1;
+        const publicPath = 'http://localhost:' + port + '/';
+        const hot = 'webpack-hot-middleware/client?path=' + publicPath + '__webpack_hmr';
         config = merge(
             common,
             {
                 entry: {
-                    app: ['babel-polyfill', hot, PATHS.src],
+                    app: ['babel-polyfill', hot, PATHS.src]
                 },
                 output: {
                     publicPath: publicPath
