@@ -1,0 +1,18 @@
+// Normalize browsers
+@import "normalize";
+
+// For writing CSS media queries in an easy and maintainable way
+@import "include-media";
+
+// For exporting breakpoints from Sass to JavaScript
+@import "include-media-export";
+
+body {
+    background-color: rgba(255, 0, 255, 0.3);
+}
+
+@include media('>=isLargeDesktop') {
+	body {
+	    background-color: rgba(255, 0, 0, 0.3);
+	}
+}

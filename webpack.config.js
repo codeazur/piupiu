@@ -71,8 +71,8 @@ const setupCSS = paths => {
     return {
         module: {
             loaders: [{
-                test: /\.css$/,
-                loader: 'style-loader!css-loader',
+                test: /\.s?css$/,
+                loaders: ["style", "css?sourceMap", "sass?sourceMap"],
                 include: paths
             }]
         }
@@ -83,8 +83,8 @@ const extractCSS = paths => {
     return {
         module: {
             loaders: [{
-                test: /\.css$/,
-                loader: ExtractTextPlugin.extract('style-loader', 'css-loader'),
+                test: /\.s?css$/,
+                loader: ExtractTextPlugin.extract('style', 'css!sass'),
                 include: paths
             }]
         },
