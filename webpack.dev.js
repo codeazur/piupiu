@@ -23,7 +23,7 @@ app.listen(port, 'localhost', err => {
 	if (err) {
 		return console.error(err);
 	}
-	console.log('Running HMR Dev Server using http://localhost:' + port);
+	console.log('[info] Running HMR Dev Server with Node.JS using http://localhost:' + port);
 });
 
 // Exit on end of STDIN
