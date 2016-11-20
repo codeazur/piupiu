@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const validate = require('webpack-validator');
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -76,6 +75,9 @@ const setupCSS = paths => {
                 loaders: ["style", "css?sourceMap", "sass?sourceMap"],
                 include: paths
             }]
+        },
+        sassLoader: {
+            includePaths: [path.join(PATHS.src, 'scss')]
         }
     };
 };
@@ -91,7 +93,10 @@ const extractCSS = paths => {
         },
         plugins: [
             new ExtractTextPlugin('css/[name].css')
-        ]
+        ],
+        sassLoader: {
+            includePaths: [path.join(PATHS.src, 'scss')]
+        }
     };
 };
 
@@ -141,4 +146,4 @@ switch (env) {
         );
 }
 
-module.exports = validate(config);
+module.exports = config;
