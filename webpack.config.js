@@ -72,7 +72,7 @@ const setupCSS = paths => {
         module: {
             loaders: [{
                 test: /\.s?css$/,
-                loaders: ["style", "css?sourceMap", "sass?sourceMap"],
+                loaders: ['style', 'css?sourceMap', 'sass?sourceMap'],
                 include: paths
             }]
         },
@@ -87,7 +87,7 @@ const extractCSS = paths => {
         module: {
             loaders: [{
                 test: /\.s?css$/,
-                loader: ExtractTextPlugin.extract('style', 'css!sass'),
+                loader: ExtractTextPlugin.extract('style', 'css!sass', { publicPath: '../' }),
                 include: paths
             }]
         },
@@ -113,6 +113,31 @@ switch (env) {
                     app: ['babel-polyfill', PATHS.src],
                     vendor: Object.keys(pkg.dependencies)
                 },
+                module: {
+                    loaders: [{
+                        test: /\.(png|jpe?g|gif|svg)$/,
+                        loaders: [
+                            'file?context=' + PATHS.src + '&name=[path][name].[ext]',
+                            'image-webpack'
+                        ]
+                    }]
+                },
+                imageWebpackLoader: {
+                    mozjpeg: {
+                        quality: 75
+                    },
+                    pngquant: {
+                        quality: "65-90",
+                        speed: 4
+                    },
+                    svgo: {
+                        plugins: [{
+                            removeViewBox: false
+                        }, {
+                            removeEmptyAttrs: false
+                        }]
+                    }
+                },
                 plugins: [
                     new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor.js')
                 ]
@@ -136,6 +161,12 @@ switch (env) {
                 },
                 output: {
                     publicPath: publicPath
+                },
+                module: {
+                    loaders: [{
+                        test: /\.(png|jpe?g|gif|svg)$/,
+                        loaders: ['file?context=' + PATHS.src + '&name=[path][name].[ext]'],
+                    }]
                 },
                 plugins: [
                     new webpack.HotModuleReplacementPlugin()
