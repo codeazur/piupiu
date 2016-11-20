@@ -39,7 +39,8 @@ const clean = path => {
     return {
         plugins: [
             new CleanWebpackPlugin([path], {
-                root: process.cwd()
+                root: process.cwd(),
+                verbose: false
             })
         ]
     };
