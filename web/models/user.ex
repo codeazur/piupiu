@@ -1,6 +1,8 @@
 defmodule Piupiu.User do
   use Piupiu.Web, :model
 
+  @derive {Poison.Encoder, only: [:id, :nick_name, :display_name, :email]}
+
   schema "users" do
     field :nick_name, :string
     field :display_name, :string
@@ -10,8 +12,6 @@ defmodule Piupiu.User do
 
     timestamps()
   end
-
-  @derive {Poison.Encoder, only: [:id, :nick_name, :display_name, :email]}
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
