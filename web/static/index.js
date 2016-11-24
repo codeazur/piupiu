@@ -1,12 +1,10 @@
 import '../../deps/phoenix/priv/static/phoenix';
-import React, { Component } from 'react';
+
+import React from 'react';
 import { render } from 'react-dom';
-
-// Global styles
-import './scss/styles.scss';
-
-// Main component
 import App from './js/App';
+
+import './scss/styles.scss';
 
 render(
     <App />,

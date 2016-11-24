@@ -17,6 +17,13 @@ config :piupiu, Piupiu.Endpoint,
   pubsub: [name: Piupiu.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :guardian, Guardian,
+  issuer: "PiuPiu",
+  ttl: { 3, :days },
+  verify_issuer: true,
+  secret_key: "H1O4o8RIEsND8IbeX7Okp7j3HL+iP1dl2+k/anXW6Ha/lM6+G4hOOwyDeGpaYK9p",
+  serializer: Piupiu.GuardianSerializer
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
