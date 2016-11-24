@@ -5,6 +5,10 @@ body {
     background-color: $mobileBackground;
 }
 
+.main-container {
+	
+}
+
 @include media('>=isLargeDesktop') {
 	body {
 	    background-color: $desktopBackground;
