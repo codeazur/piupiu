@@ -1,7 +1,7 @@
 import React from 'react';
 
 const defaultHeaders = {
-    Accept: 'application/json',
+    'Accept': 'application/json',
     'Content-Type': 'application/json',
 };
 
@@ -9,7 +9,7 @@ function buildHeaders() {
     const jwt = localStorage.getItem('jwt');
     return !jwt ? defaultHeaders : {
         ...defaultHeaders,
-        Authorization: authToken,
+        'Authorization': `Bearer ${jwt}`,
     };
 }
 
