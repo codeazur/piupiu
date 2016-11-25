@@ -1,5 +1,6 @@
-// Normalize browsers
-@import "normalize";
+// Bootstrap
+@import "bootstrap-config";
+@import "bootstrap";
 
 // For exporting breakpoints from Sass to JavaScript
 @import "media-export";

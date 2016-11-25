@@ -26,6 +26,21 @@ const common = {
             test: /\.jsx?$/,
             loaders: ['babel?cacheDirectory'],
             include: PATHS.src
+        }, {
+            test: /\.svg$/,
+            loader: 'file?mimetype=image/svg+xml&context=' + PATHS.src + '&name=fonts/[name].[ext]'
+        }, {
+            test: /\.woff$/,
+            loader: 'file?mimetype=application/font-woff&context=' + PATHS.src + '&name=fonts/[name].[ext]'
+        }, {
+            test: /\.woff2$/,
+            loader: 'file?mimetype=application/font-woff2&context=' + PATHS.src + '&name=fonts/[name].[ext]'
+        }, {
+            test: /\.[ot]tf$/,
+            loader: 'file?mimetype=application/octet-stream&context=' + PATHS.src + '&name=fonts/[name].[ext]'
+        }, {
+            test: /\.eot$/,
+            loader: 'file?mimetype=application/vnd.ms-fontobject&context=' + PATHS.src + '&name=fonts/[name].[ext]'
         }]
     },
     plugins: [
@@ -119,7 +134,8 @@ switch (env) {
                         loaders: [
                             'file?context=' + PATHS.src + '&name=[path][name].[ext]',
                             'image-webpack'
-                        ]
+                        ],
+                        include: PATHS.src
                     }]
                 },
                 imageWebpackLoader: {
@@ -166,6 +182,7 @@ switch (env) {
                     loaders: [{
                         test: /\.(png|jpe?g|gif|svg)$/,
                         loaders: ['file?context=' + PATHS.src + '&name=[path][name].[ext]'],
+                        include: PATHS.src
                     }]
                 },
                 plugins: [

@@ -1,16 +1,12 @@
 @import 'media';
 @import 'variables';
 
-body {
-    background-color: $mobileBackground;
-}
-
 .main-container {
 	
 }
 
 @include media('>=isLargeDesktop') {
-	body {
-	    background-color: $desktopBackground;
+	.main-container {
+		
 	}
 }
