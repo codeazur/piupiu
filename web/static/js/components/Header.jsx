@@ -1,18 +1,20 @@
 import React, { Component, PropTypes } from 'react';
+import HeaderUserMenu from './HeaderUserMenu';
 
 import './Header.scss';
 
 class Header extends Component {
 
     static propTypes = {
-        currentUser: PropTypes.object,
-        dispatch: PropTypes.func.isRequired,
+        session: PropTypes.object,
     };
 
     render() {
-        const { currentUser } = this.props;
+        const { session } = this.props;
         return (
             <header className="main-header">
+                <h1>PiuPiu<small>.io</small></h1>
+                <HeaderUserMenu session={session} />
             </header>
         );
     }

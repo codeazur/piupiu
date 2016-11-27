@@ -1,33 +1,39 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Actions from '../actions/sessions';
+import { getCurrentUser } from '../actions/sessions';
 import Header from '../components/Header';
+import ModalManager from '../components/ModalManager';
 
 import './Main.scss';
 
 class Main extends Component {
 
+    static propTypes = {
+        session: PropTypes.object,
+        getCurrentUser: PropTypes.func.isRequired,
+    };
+
     componentDidMount() {
-        const { dispatch, currentUser } = this.props;
-        const jwt = localStorage.getItem('jwt');
-        if (jwt && !currentUser) {
-            dispatch(Actions.currentUser());
+        const { session, getCurrentUser } = this.props;
+        if (!session || !session.currentUser) {
+            getCurrentUser();
         }
     }
 
     render() {
-        const { currentUser, dispatch, children } = this.props;
+        const { session, children } = this.props;
         return (
             <div className="main-container">
-                <Header currentUser={currentUser} dispatch={dispatch} />
+                <Header session={session} />
                 {children}
+                <ModalManager />
             </div>
         );
     }
 }
 
-const mapStateToProps = state => ({
-    currentUser: state.session.currentUser,
-});
+const mapStateToProps = state => ({ session: state.session });
+const mapDispatchToProps = dispatch => bindActionCreators({ getCurrentUser }, dispatch);
 
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

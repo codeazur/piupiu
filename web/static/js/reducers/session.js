@@ -1,11 +1,6 @@
 import Constants from '../constants';
 
-const initialState = {
-    currentUser: null,
-    error: null,
-};
-
-export default function reducer(state = initialState, action = {}) {
+export default function sessionReducer(state = null, action = {}) {
     switch (action.type) {
         case Constants.CURRENT_USER:
             return {
@@ -19,7 +14,10 @@ export default function reducer(state = initialState, action = {}) {
                 error: action.error
             };
         case Constants.USER_SIGNED_OUT:
-            return initialState;
+            return {
+                currentUser: null,
+                error: null,
+            };
         default:
             return state;
     }
