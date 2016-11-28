@@ -1,7 +1,7 @@
 import Constants from '../constants';
 import { httpGet, httpPost, httpDelete }  from '../utils';
 
-function setCurrentUser(dispatch, user) {
+export function setCurrentUser(dispatch, user) {
     dispatch({
         type: Constants.CURRENT_USER,
         currentUser: user,

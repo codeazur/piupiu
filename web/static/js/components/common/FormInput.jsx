@@ -6,6 +6,7 @@ class FormInput extends Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         type: PropTypes.string,
+        value: PropTypes.string,
         label: PropTypes.string,
         placeholder: PropTypes.string,
         validationState: PropTypes.string,
@@ -19,26 +20,17 @@ class FormInput extends Component {
         validationState: null,
     };
 
-    state = {
-        value: '',
-    };
-
-    handleChange = event => {
-        this.setState({ value: event.target.value });
-        this.props.onChange && this.props.onChange(event);
-    };
-
     render() {
-        const { id, type, label, placeholder, onChange, validationState } = this.props;
+        const { id, type, value, label, placeholder, onChange, validationState } = this.props;
         return (
             <FormGroup controlId={id} bsSize="sm" validationState={validationState}>
                 <Col componentClass={ControlLabel} sm={2}>{label}</Col>
                 <Col sm={10}>
                     <FormControl
                         type={type}
-                        value={this.state.value}
+                        value={value}
                         placeholder={placeholder}
-                        onChange={this.handleChange} />
+                        onChange={onChange} />
                 </Col>
             </FormGroup>
         );

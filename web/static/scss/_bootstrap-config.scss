@@ -3,3 +3,25 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 $body-bg: $mobileBackground;
 $font-size-base: 16px;
+
+$modal-backdrop-opacity: 0.75;
+$modal-header-border-color: #ddd;
+
+.modal {
+    .modal-header-small,
+    .modal-footer-small {
+        padding: 6px 15px;
+    }
+    .modal-footer-small {
+        padding-bottom: 10px;
+    }
+    .modal-body {
+        background-color: #f4f4f4;
+    }
+    .control-label {
+        padding-right: 0;
+    }
+    .form-group:last-of-type {
+        margin-bottom: 6px;
+    }
+}
