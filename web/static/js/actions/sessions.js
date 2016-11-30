@@ -22,7 +22,6 @@ export function signUp(user) {
                 userSignedIn(dispatch, data.user);
             })
             .catch(error => {
-                console.log(error.stack)
                 error.response.json()
                     .then(errorJSON => {
                         dispatch({
