@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { signUp } from '../../actions/registrations';
+import { signUp } from '../../actions/sessions';
+import { closeModal } from '../../actions/modals';
 import { Button, ButtonToolbar, Form, FormGroup, Col } from 'react-bootstrap';
 import FormInput from '../common/FormInput';
 
@@ -16,7 +17,18 @@ class AuthModalRegisterForm extends Component {
         onCancel: PropTypes.func.isRequired,
         onChange: PropTypes.func.isRequired,
         session: PropTypes.object,
+        // Action creators
+        signUp: PropTypes.func.isRequired,
+        closeModal: PropTypes.func.isRequired,
     };
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.session !== this.props.session) {
+            if (nextProps.session.currentUser) {
+                this.props.closeModal();
+            }
+        }
+    }
 
     getEmailValidationState() {
         return null;
@@ -46,13 +58,6 @@ class AuthModalRegisterForm extends Component {
         return (
             <Form horizontal onSubmit={this.handleSubmit}>
                 <FormInput
-                    id="nick_name"
-                    label="Username"
-                    value={this.props.data.nick_name}
-                    placeholder="Enter your username"
-                    validationState={this.getNicknameValidationState()}
-                    onChange={this.handleChange('nick_name')} />
-                <FormInput
                     id="email"
                     label="Email"
                     value={this.props.data.email}
@@ -67,6 +72,13 @@ class AuthModalRegisterForm extends Component {
                     placeholder="Enter your password"
                     validationState={this.getPasswordValidationState()}
                     onChange={this.handleChange('password')} />
+                <FormInput
+                    id="nick_name"
+                    label="Username"
+                    value={this.props.data.nick_name}
+                    placeholder="Enter your username"
+                    validationState={this.getNicknameValidationState()}
+                    onChange={this.handleChange('nick_name')} />
                 <FormGroup>
                     <Col smOffset={2} sm={10}>
                         <ButtonToolbar>
@@ -80,6 +92,6 @@ class AuthModalRegisterForm extends Component {
     }
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({ signUp }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ closeModal, signUp }, dispatch);
 
 export default connect(null, mapDispatchToProps)(AuthModalRegisterForm);

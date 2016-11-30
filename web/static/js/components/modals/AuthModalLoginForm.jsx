@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { signIn } from '../../actions/sessions';
+import { closeModal } from '../../actions/modals';
 import { Button, ButtonToolbar, Form, FormGroup, Col } from 'react-bootstrap';
 import FormInput from '../common/FormInput';
 
@@ -15,7 +16,18 @@ class AuthModalLoginForm extends Component {
         onCancel: PropTypes.func.isRequired,
         onChange: PropTypes.func.isRequired,
         session: PropTypes.object,
+        // Action creators
+        signIn: PropTypes.func.isRequired,
+        closeModal: PropTypes.func.isRequired,
     };
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.session !== this.props.session) {
+            if (nextProps.session.currentUser) {
+                this.props.closeModal();
+            }
+        }
+    }
 
     getEmailValidationState() {
         return null;
@@ -69,6 +81,6 @@ class AuthModalLoginForm extends Component {
     }
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({ signIn }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ closeModal, signIn }, dispatch);
 
 export default connect(null, mapDispatchToProps)(AuthModalLoginForm);

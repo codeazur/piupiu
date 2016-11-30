@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { closeModal } from '../../actions/modals';
-import { Modal, Button, ButtonToolbar, Form, FormGroup, Grid, Row, Col } from 'react-bootstrap';
+import { Modal, Row, Col } from 'react-bootstrap';
 import FormInput from '../common/FormInput';
 import AuthModalLoginForm from './AuthModalLoginForm';
 import AuthModalRegisterForm from './AuthModalRegisterForm';
@@ -12,11 +11,9 @@ import './AuthModal.scss';
 class AuthModal extends Component {
 
     static propTypes = {
-        // from ModalManager
         show: PropTypes.bool,
         onHide: PropTypes.func.isRequired,
-        // from Redux
-        closeModal: PropTypes.func.isRequired,
+        // from Redux store
         session: PropTypes.object,
     };
 
@@ -30,17 +27,8 @@ class AuthModal extends Component {
             email: '',
             password: '',
             nick_name: '',
-            display_name: '',
         }
     };
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.session !== this.props.session) {
-            if (nextProps.session.currentUser) {
-                this.props.closeModal();
-            }
-        }
-    }
 
     handleChange = data => {
         this.setState({ data });
@@ -119,6 +107,5 @@ class AuthModal extends Component {
 };
 
 const mapStateToProps = state => ({ session: state.session });
-const mapDispatchToProps = dispatch => bindActionCreators({ closeModal }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthModal);
+export default connect(mapStateToProps)(AuthModal);

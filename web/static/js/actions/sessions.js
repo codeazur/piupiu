@@ -1,32 +1,60 @@
 import Constants from '../constants';
 import { httpGet, httpPost, httpDelete }  from '../utils';
 
-export function setCurrentUser(dispatch, user) {
+function userSignedIn(dispatch, user) {
     dispatch({
-        type: Constants.CURRENT_USER,
+        type: Constants.USER_SIGNED_IN,
         currentUser: user,
     });
+};
+
+function userSignedOut(dispatch) {
+    dispatch({
+        type: Constants.USER_SIGNED_OUT,
+    });
+};
+
+export function signUp(user) {
+    return dispatch => {
+        httpPost('/api/v1/registrations', { user })
+            .then(data => {
+                localStorage.setItem('jwt', data.jwt);
+                userSignedIn(dispatch, data.user);
+            })
+            .catch(error => {
+                console.log(error.stack)
+                error.response.json()
+                    .then(errorJSON => {
+                        dispatch({
+                            type: Constants.SESSIONS_ERROR,
+                            errors: errorJSON.errors,
+                        });
+                    });
+            });
+    };
 };
 
 export function signIn(email, password) {
     return dispatch => {
         const data = {
             session: {
-                email: email,
-                password: password,
+                email,
+                password,
             },
         };
         httpPost('/api/v1/sessions', data)
             .then(data => {
                 localStorage.setItem('jwt', data.jwt);
-                setCurrentUser(dispatch, data.user);
+                userSignedIn(dispatch, data.user);
             })
             .catch(error => {
                 error.response.json()
                     .then(errorJSON => {
                         dispatch({
                             type: Constants.SESSIONS_ERROR,
-                            error: errorJSON.error,
+                            errors: [{
+                                misc: errorJSON.error,
+                            }],
                         });
                     });
             });
@@ -51,19 +79,15 @@ export function signOut() {
 export function getCurrentUser() {
     return dispatch => {
         if (!localStorage.getItem('jwt')) {
-            dispatch({
-                type: Constants.USER_SIGNED_OUT,
-            });
+            userSignedOut(dispatch);
         } else {
             httpGet('/api/v1/current_user')
                 .then(data => {
-                    setCurrentUser(dispatch, data);
+                    userSignedIn(dispatch, data);
                 })
                 .catch(error => {
                     console.info(error);
-                    dispatch({
-                        type: Constants.USER_SIGNED_OUT,
-                    });
+                    userSignedOut(dispatch);
                 });
         }
     };
