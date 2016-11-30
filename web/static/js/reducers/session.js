@@ -5,22 +5,22 @@ export default function sessionReducer(state = null, action = {}) {
         case Constants.USER_SIGNED_IN:
             return {
                 currentUser: action.currentUser,
-                errors: null
+                error: null
             };
         case Constants.USER_SIGNED_OUT:
             return {
                 currentUser: null,
-                errors: null,
+                error: null,
             };
         case Constants.SESSIONS_ERROR:
             return {
                 ...state,
-                errors: action.errors,
+                error: action.error,
             };
         case Constants.REGISTRATIONS_ERROR:
             return {
                 ...state,
-                errors: action.errors,
+                error: action.error,
             };
         default:
             return state;

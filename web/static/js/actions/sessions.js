@@ -27,7 +27,7 @@ export function signUp(user) {
                     .then(errorJSON => {
                         dispatch({
                             type: Constants.SESSIONS_ERROR,
-                            errors: errorJSON.errors,
+                            error: errorJSON.error,
                         });
                     });
             });
@@ -52,9 +52,7 @@ export function signIn(email, password) {
                     .then(errorJSON => {
                         dispatch({
                             type: Constants.SESSIONS_ERROR,
-                            errors: [{
-                                misc: errorJSON.error,
-                            }],
+                            error: errorJSON.error,
                         });
                     });
             });
