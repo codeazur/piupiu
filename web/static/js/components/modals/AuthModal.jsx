@@ -40,23 +40,20 @@ class AuthModal extends Component {
                 this.props.closeModal();
             }
         }
-        if (nextProps.show !== this.props.show) {
-            if (!nextProps.show) {
-                this.setState({
-                    form: 'login',
-                });
-            }
-        }
     }
 
     handleChange = data => {
-        this.setState({ 
-            data: { ...data }
-        });
+        this.setState({ data });
     };
 
     handleFooterItemClick = form => event => {
-        this.setState({ form: form });
+        this.setState({ form });
+    };
+
+    handleExited = () => {
+        this.setState({
+            form: 'login',
+        });
     };
 
     renderTitle() {
@@ -106,7 +103,7 @@ class AuthModal extends Component {
     render() {
         const { show, onHide } = this.props;
         return (
-            <Modal show={show} onHide={onHide} dialogClassName="auth-modal" aria-labelledby="auth-modal-title">
+            <Modal show={show} onHide={onHide} onExited={this.handleExited} dialogClassName="auth-modal" aria-labelledby="auth-modal-title">
                 <Modal.Header bsClass="modal-header modal-header-small" closeButton>
                     <Modal.Title id="auth-modal-title">{this.renderTitle()}</Modal.Title>
                 </Modal.Header>
