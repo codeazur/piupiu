@@ -20,11 +20,12 @@ defmodule Piupiu.User do
     struct
     |> cast(params, [:nick_name, :display_name, :email, :encrypted_password, :password])
     |> validate_required([:nick_name, :email, :password])
-    |> validate_format(:email, ~r/@/)
-    |> validate_length(:password, min: 6)
-    |> validate_confirmation(:password, message: "Password does not match")
-    |> unique_constraint(:nick_name, message: "Nickname already taken")
-    |> unique_constraint(:email, message: "Email already taken")
+    |> validate_length(:email, max: 254, message: "Please enter a valid email address")
+    |> validate_format(:email, ~r/^[A-Z0-9][A-Z0-9._%+-]{0,63}@(?:(?=[A-Z0-9-]{1,63}\.)[A-Z0-9]+(?:-[A-Z0-9]+)*\.){1,8}[A-Z]{2,63}$/i, message: "Please enter a valid email address")
+    |> validate_length(:password, min: 6, message: "The password must be at least 6 characters long")
+    |> validate_confirmation(:password, message: "The password does not match")
+    |> unique_constraint(:email, message: "This email address is already registered")
+    |> unique_constraint(:nick_name, message: "This username is already registered")
     |> generate_encrypted_password
   end
 
