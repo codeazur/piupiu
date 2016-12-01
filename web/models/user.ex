@@ -3,6 +3,8 @@ defmodule Piupiu.User do
 
   @derive {Poison.Encoder, only: [:id, :nick_name, :display_name, :email]}
 
+  @email_regex ~r/^[A-Z0-9][A-Z0-9._%+-]{0,63}@(?:(?=[A-Z0-9-]{1,63}\.)[A-Z0-9]+(?:-[A-Z0-9]+)*\.){1,8}[A-Z]{2,63}$/i
+
   schema "users" do
     field :nick_name, :string
     field :display_name, :string
@@ -19,11 +21,12 @@ defmodule Piupiu.User do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:nick_name, :display_name, :email, :encrypted_password, :password])
-    |> validate_required([:nick_name, :email, :password])
-    |> validate_length(:email, max: 254, message: "Please enter a valid email address")
-    |> validate_format(:email, ~r/^[A-Z0-9][A-Z0-9._%+-]{0,63}@(?:(?=[A-Z0-9-]{1,63}\.)[A-Z0-9]+(?:-[A-Z0-9]+)*\.){1,8}[A-Z]{2,63}$/i, message: "Please enter a valid email address")
-    |> validate_length(:password, min: 6, message: "The password must be at least 6 characters long")
-    |> validate_confirmation(:password, message: "The password does not match")
+    |> validate_required([:email], message: "Please enter your email address")
+    |> validate_required([:password], message: "Please enter your password")
+    |> validate_required([:nick_name], message: "Please enter your username")
+    |> validate_length(:email, max: 254, message: "This email address is invalid")
+    |> validate_format(:email, @email_regex, message: "This email address is invalid")
+    |> validate_length(:password, min: 6, message: "Your password must be at least %{count} characters long")
     |> unique_constraint(:email, message: "This email address is already registered")
     |> unique_constraint(:nick_name, message: "This username is already registered")
     |> generate_encrypted_password

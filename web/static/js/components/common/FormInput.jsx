@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel, Col, HelpBlock } from 'react-bootstrap';
 
 class FormInput extends Component {
 
@@ -10,6 +10,7 @@ class FormInput extends Component {
         label: PropTypes.string,
         placeholder: PropTypes.string,
         validationState: PropTypes.string,
+        validationMessage: PropTypes.string,
         onChange: PropTypes.func,
     };
 
@@ -21,7 +22,7 @@ class FormInput extends Component {
     };
 
     render() {
-        const { id, type, value, label, placeholder, onChange, validationState } = this.props;
+        const { id, type, value, label, placeholder, onChange, validationState, validationMessage } = this.props;
         return (
             <FormGroup controlId={id} bsSize="sm" validationState={validationState}>
                 <Col componentClass={ControlLabel} sm={2}>{label}</Col>
@@ -31,6 +32,7 @@ class FormInput extends Component {
                         value={value}
                         placeholder={placeholder}
                         onChange={onChange} />
+                    <HelpBlock bsClass="help-block help-block-small">{validationMessage}</HelpBlock>
                 </Col>
             </FormGroup>
         );

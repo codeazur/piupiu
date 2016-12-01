@@ -8,18 +8,28 @@ defmodule Piupiu.RegistrationController  do
   def create(conn, %{"user" => user_params}) do
     changeset = User.changeset(%User{}, user_params)
 
-    case Repo.insert(changeset) do
-      {:ok, user} ->
-        {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user, :token)
+    if changeset.valid? do
 
-        conn
-        |> put_status(:created)
-        |> render(Piupiu.SessionView, "show.json", jwt: jwt, user: user)
+      case Repo.insert(changeset) do
+        {:ok, user} ->
+          {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user, :token)
 
-      {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render(Piupiu.RegistrationView, "error.json", changeset: changeset)
+          conn
+          |> put_status(:created)
+          |> render(Piupiu.SessionView, "show.json", jwt: jwt, user: user)
+
+        {:error, changeset} ->
+          conn
+          |> put_status(:unprocessable_entity)
+          |> render(Piupiu.RegistrationView, "error.json", changeset: changeset, error_type: "constraint")
+      end
+
+    else
+
+      conn
+      |> put_status(:unprocessable_entity)
+      |> render(Piupiu.RegistrationView, "error.json", changeset: changeset, error_type: "validation")
+
     end
   end
 end

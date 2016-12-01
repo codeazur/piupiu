@@ -1,21 +1,20 @@
 defmodule Piupiu.RegistrationView do
   use Piupiu.Web, :view
 
-  def render("error.json", %{changeset: changeset}) do
-    error = Enum.map(changeset.errors, fn {field, detail} ->
-      %{} |> Map.put(field, render_detail(detail))
-    end)
-
+  def render("error.json", %{changeset: changeset, error_type: error_type}) do
     %{
-      error: error
+      error: %{
+        type: error_type,
+        fields: Enum.reduce(changeset.errors, %{}, &error_reducer/2)
+      }
     }
   end
 
-  defp render_detail({message, values}) do
-    Enum.reduce(values, message, fn {k, v}, acc -> String.replace(acc, "%{#{k}}", to_string(v)) end)
+  defp error_reducer({field, message}, acc) do
+    Map.put(acc, field, render_detail(message))
   end
 
-  defp render_detail(message) do
-    message
+  defp render_detail({text, keys}) do
+    Enum.reduce(keys, text, fn {key, value}, acc -> String.replace(acc, "%{#{key}}", to_string(value)) end)
   end
 end
