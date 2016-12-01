@@ -8,6 +8,7 @@ class ModalManager extends Component {
     static propTypes = {
         modal: PropTypes.shape({
             component: PropTypes.func,
+            props: PropTypes.object,
             show: PropTypes.bool,
         }),
     };
@@ -17,13 +18,14 @@ class ModalManager extends Component {
     };
 
     render() {
-        const { component, ...props } = this.props.modal;
+        const { component, props, show } = this.props.modal;
         if (!component) {
             return null;
         }
         return createElement(component, {
             ...props,
             onHide: this.handleHide,
+            show
         });
     }
 }

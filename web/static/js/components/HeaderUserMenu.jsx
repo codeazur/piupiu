@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { openModal } from '../actions/modals';
 import { signOut } from '../actions/sessions';
-import { Button, Glyphicon } from 'react-bootstrap';
+import { ButtonToolbar, Button, Glyphicon } from 'react-bootstrap';
 import AuthModal from './modals/AuthModal';
 
 import './HeaderUserMenu.scss';
@@ -19,7 +19,11 @@ class HeaderUserMenu extends Component {
     };
 
     handleSignInClick = event => {
-        this.props.openModal(AuthModal);
+        this.props.openModal(AuthModal, { form: 'login' });
+    };
+
+    handleRegisterClick = event => {
+        this.props.openModal(AuthModal, { form: 'register' });
     };
 
     renderLoggedIn() {
@@ -35,7 +39,10 @@ class HeaderUserMenu extends Component {
     renderLoggedOut() {
         return (
             <div className="header-user-menu">
-                <Button onClick={this.handleSignInClick} bsStyle="success" bsSize="small">Log In</Button>
+                <ButtonToolbar>
+                    <Button onClick={this.handleRegisterClick} bsSize="small">Register</Button>
+                    <Button onClick={this.handleSignInClick} bsStyle="success" bsSize="small">Log In</Button>
+                </ButtonToolbar>
             </div>
         );
     }

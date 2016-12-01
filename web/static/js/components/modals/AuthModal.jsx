@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { setModalProps } from '../../actions/modals';
 import { Modal, Row, Col } from 'react-bootstrap';
 import FormInput from '../common/FormInput';
 import AuthModalLoginForm from './AuthModalLoginForm';
@@ -12,17 +13,19 @@ class AuthModal extends Component {
 
     static propTypes = {
         show: PropTypes.bool,
+        form: PropTypes.string,
         onHide: PropTypes.func.isRequired,
         // from Redux store
         session: PropTypes.object,
+        setModalProps: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
         show: true,
+        form: 'login',
     }
 
     state = {
-        form: 'login',
         data: {
             email: '',
             password: '',
@@ -30,53 +33,40 @@ class AuthModal extends Component {
         }
     };
 
+    formItems = [
+        { form: 'login', component: AuthModalLoginForm, label: 'Log In', title: 'Log In' },
+        { form: 'register', component: AuthModalRegisterForm, label: 'Register', title: 'Register' },
+        { form: 'reset', component: null, label: 'Forgot your password?', title: 'Reset Password' },
+        { form: 'resend', component: null, label: 'Didn\'t receive confirmation email?', title: 'Resend Confirmation Email' },
+    ];
+
     handleChange = data => {
         this.setState({ data });
     };
 
     handleFooterItemClick = form => event => {
-        this.setState({ form });
+        this.props.setModalProps({ form });
     };
 
-    handleExited = () => {
-        this.setState({
-            form: 'login',
-        });
-    };
-
-    renderTitle() {
-        switch (this.state.form) {
-            case 'login': return 'Log In';
-            case 'register': return 'Register';
-            case 'reset': return 'Reset Password';
-            case 'resend': return 'Resend Confirmation Email';
-            default: return '';
-        }
+    renderTitle(formItem) {
+        return formItem ? formItem.title : null;
     }
 
-    renderForm() {
-        const commonProps = {
-            session: this.props.session,
-            data: this.state.data,
-            onCancel: this.props.onHide,
-            onChange: this.handleChange,
-        };
-        switch (this.state.form) {
-            case 'login': return <AuthModalLoginForm {...commonProps} />;
-            case 'register': return <AuthModalRegisterForm {...commonProps} />;
-            default: return null; 
+    renderForm(formItem) {
+        if (formItem && formItem.component) {
+            return React.createElement(formItem.component, {
+                session: this.props.session,
+                data: this.state.data,
+                onCancel: this.props.onHide,
+                onChange: this.handleChange,
+            });
         }
+        return null;
     }
 
     renderFooterItems() {
-        const items = [
-            { form: 'login', label: 'Log In' },
-            { form: 'register', label: 'Register' },
-            { form: 'reset', label: 'Forgot your password?' },
-            { form: 'resend', label: 'Didn\'t receive confirmation email?' },
-        ];
-        return items
-            .filter(item => item.form !== this.state.form)
+        return this.formItems
+            .filter(item => item.form !== this.props.form)
             .map((item, i) => (
                 <Row className="auth-modal-footer-item" key={item.form}>
                     <Col smOffset={2} sm={10}>
@@ -90,13 +80,16 @@ class AuthModal extends Component {
 
     render() {
         const { show, onHide } = this.props;
+        const formItem = this.formItems.find(item => item.form === this.props.form);
         return (
-            <Modal show={show} onHide={onHide} onExited={this.handleExited} dialogClassName="auth-modal" aria-labelledby="auth-modal-title">
+            <Modal show={show} onHide={onHide} dialogClassName="auth-modal" aria-labelledby="auth-modal-title">
                 <Modal.Header bsClass="modal-header modal-header-small" closeButton>
-                    <Modal.Title id="auth-modal-title">{this.renderTitle()}</Modal.Title>
+                    <Modal.Title id="auth-modal-title">
+                        {this.renderTitle(formItem)}
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {this.renderForm()}
+                    {this.renderForm(formItem)}
                 </Modal.Body>
                 <Modal.Footer bsClass="modal-footer modal-footer-small">
                     {this.renderFooterItems()}
@@ -107,5 +100,6 @@ class AuthModal extends Component {
 };
 
 const mapStateToProps = state => ({ session: state.session });
+const mapDispatchToProps = dispatch => bindActionCreators({ setModalProps }, dispatch);
 
-export default connect(mapStateToProps)(AuthModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthModal);

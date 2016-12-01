@@ -7,6 +7,7 @@ const Constants = {
 
   MODAL_OPEN: 'MODAL_OPEN',
   MODAL_CLOSE: 'MODAL_CLOSE',
+  MODAL_PROPS: 'MODAL_PROPS',
 };
 
 export default Constants;
