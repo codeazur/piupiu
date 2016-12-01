@@ -21,20 +21,21 @@ class AuthModalLoginForm extends Component {
         closeModal: PropTypes.func.isRequired,
     };
 
+    state = {
+        error: null,
+    };
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.session !== this.props.session) {
             if (nextProps.session.currentUser) {
                 this.props.closeModal();
             }
+            if (nextProps.session.error) {
+                this.setState({
+                    error: nextProps.session.error
+                })
+            }
         }
-    }
-
-    getEmailValidationState() {
-        return null;
-    }
-
-    getPasswordValidationState() {
-        return null;
     }
 
     handleChange = key => event => {
@@ -58,7 +59,7 @@ class AuthModalLoginForm extends Component {
                     label="Email"
                     value={this.props.data.email}
                     placeholder="Enter your email address"
-                    validationState={this.getEmailValidationState()}
+                    validationState={this.state.error ? 'error' : null}
                     onChange={this.handleChange('email')} />
                 <FormInput
                     id="password"
@@ -66,7 +67,8 @@ class AuthModalLoginForm extends Component {
                     label="Password"
                     value={this.props.data.password}
                     placeholder="Enter your password"
-                    validationState={this.getPasswordValidationState()}
+                    validationState={this.state.error ? 'error' : null}
+                    validationMessage={this.state.error}
                     onChange={this.handleChange('password')} />
                 <FormGroup>
                     <Col smOffset={2} sm={10}>
