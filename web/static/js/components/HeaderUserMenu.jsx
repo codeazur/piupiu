@@ -12,29 +12,22 @@ class HeaderUserMenu extends Component {
 
     static propTypes = {
         session: PropTypes.object,
-    };
-
-    handleSignOutClick = event => {
-        this.props.signOut();
-    };
-
-    handleSignInClick = event => {
-        this.props.openModal(AuthModal, { form: 'login' });
+        // Bound action creators
+        openModal: PropTypes.func.isRequired,
+        signOut: PropTypes.func.isRequired,
     };
 
     handleRegisterClick = event => {
         this.props.openModal(AuthModal, { form: 'register' });
     };
 
-    renderLoggedIn() {
-        const { session } = this.props;
-        return (
-            <div className="header-user-menu">
-                @{session.currentUser.nick_name}
-                <Button onClick={this.handleSignOutClick} bsStyle="danger" bsSize="small">Log Out</Button>
-            </div>
-        );
-    }
+    handleSignInClick = event => {
+        this.props.openModal(AuthModal, { form: 'login' });
+    };
+
+    handleSignOutClick = event => {
+        this.props.signOut();
+    };
 
     renderLoggedOut() {
         return (
@@ -43,6 +36,16 @@ class HeaderUserMenu extends Component {
                     <Button onClick={this.handleRegisterClick} bsSize="small">Register</Button>
                     <Button onClick={this.handleSignInClick} bsStyle="success" bsSize="small">Log In</Button>
                 </ButtonToolbar>
+            </div>
+        );
+    }
+
+    renderLoggedIn() {
+        const { session } = this.props;
+        return (
+            <div className="header-user-menu">
+                <span className="nick-name">@{session.currentUser.nick_name}</span>
+                <Button onClick={this.handleSignOutClick} bsStyle="danger" bsSize="small">Log Out</Button>
             </div>
         );
     }
