@@ -29,7 +29,7 @@ class AuthModal extends Component {
         data: {
             email: '',
             password: '',
-            nick_name: '',
+            username: '',
         }
     };
 

@@ -14,7 +14,7 @@ class AuthModalRegisterForm extends Component {
         data: PropTypes.shape({
             email: PropTypes.string,
             password: PropTypes.string,
-            nick_name: PropTypes.string,
+            username: PropTypes.string,
         }).isRequired,
         onCancel: PropTypes.func.isRequired,
         onChange: PropTypes.func.isRequired,
@@ -84,14 +84,14 @@ class AuthModalRegisterForm extends Component {
                     onChange={this.handleChange('password')}
                     onBlur={this.handleBlur('password')} />
                 <FormInput
-                    id="nick_name"
+                    id="username"
                     label="Username"
-                    value={this.props.data.nick_name}
+                    value={this.props.data.username}
                     placeholder="Enter your username"
-                    validationState={errors.nick_name ? 'error' : null}
-                    validationMessage={errors.nick_name}
-                    onChange={this.handleChange('nick_name')}
-                    onBlur={this.handleBlur('nick_name')} />
+                    validationState={errors.username ? 'error' : null}
+                    validationMessage={errors.username}
+                    onChange={this.handleChange('username')}
+                    onBlur={this.handleBlur('username')} />
                 <FormGroup>
                     <Col smOffset={2} sm={10}>
                         <ButtonToolbar>

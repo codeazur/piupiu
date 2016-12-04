@@ -44,7 +44,7 @@ class HeaderUserMenu extends Component {
         const { session } = this.props;
         return (
             <div className="header-user-menu">
-                <span className="nick-name">@{session.currentUser.nick_name}</span>
+                <span className="nick-name">@{session.currentUser.username}</span>
                 <Button onClick={this.handleSignOutClick} bsStyle="danger" bsSize="small">Log Out</Button>
             </div>
         );

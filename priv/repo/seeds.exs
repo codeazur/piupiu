@@ -14,8 +14,8 @@ alias Piupiu.{Repo, User}
 
 [
   %{
-    nick_name: "jd001",
-    display_name: "John Doe",
+    username: "jd001",
+    name: "John Doe",
     email: "john.doe@gmail.com",
     password: "12345678"
   },

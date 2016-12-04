@@ -3,7 +3,7 @@ defmodule Piupiu.UserTest do
 
   alias Piupiu.User
 
-  @valid_attrs %{nick_name: "johndoe001", display_name: "John Doe", email: "john@doe.com", encrypted_password: "abcdef", }
+  @valid_attrs %{username: "johndoe001", name: "John Doe", email: "john@doe.com", encrypted_password: "abcdef", }
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
