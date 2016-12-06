@@ -28,17 +28,19 @@ defmodule Piupiu.RegistrationController  do
 
         {:error, _operation, repo_changeset, _changes} ->
           conn
-          |> put_status(:unprocessable_entity)
-          |> render(Piupiu.RegistrationView, "error.json", changeset: copy_errors(repo_changeset, changeset), error_type: "constraint")
+          |> render_error(copy_errors(repo_changeset, changeset), "constraint")
       end
 
     else
-
       conn
-      |> put_status(:unprocessable_entity)
-      |> render(Piupiu.RegistrationView, "error.json", changeset: changeset, error_type: "validation")
-
+      |> render_error(changeset, "validation")
     end
+  end
+
+  defp render_error(conn, changeset, type, status \\ :unprocessable_entity) do
+    conn
+    |> put_status(status)
+    |> render(Piupiu.RegistrationView, "error.json", changeset: changeset, error_type: type)
   end
 
   defp copy_errors(from, to) do
