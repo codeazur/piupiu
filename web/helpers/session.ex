@@ -6,9 +6,9 @@ defmodule Piupiu.Session do
   def authenticate(%{"email" => _email, "password" => nil}), do: :error
 
   def authenticate(%{"email" => email, "password" => password}) do
-    user = Repo.get_by(User, email: String.downcase(email))
+    user = Repo.get_by(User, email: email)
     case check_password(user, password) do
-      true -> {:ok, user}
+      true -> {:ok, user |> Repo.preload(:account)}
       _ -> :error
     end
   end

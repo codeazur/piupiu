@@ -31,6 +31,7 @@ defmodule Piupiu.Web do
       use Phoenix.Controller
 
       alias Piupiu.Repo
+      alias Ecto.Multi
       import Ecto
       import Ecto.Query
 

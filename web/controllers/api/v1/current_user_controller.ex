@@ -4,7 +4,7 @@ defmodule Piupiu.CurrentUserController do
   plug Guardian.Plug.EnsureAuthenticated, handler: Piupiu.SessionController
 
   def show(conn, _) do
-    user = Guardian.Plug.current_resource(conn)
+    user = Guardian.Plug.current_resource(conn) |> Repo.preload(:account)
 
     conn
     |> put_status(:ok)

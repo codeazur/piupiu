@@ -14,9 +14,10 @@ function userSignedOut(dispatch) {
     });
 };
 
-export function signUp(user) {
+export function signUp(registration) {
     return dispatch => {
-        httpPost('/api/v1/registrations', { user })
+        console.info({ registration })
+        httpPost('/api/v1/registrations', { registration })
             .then(data => {
                 localStorage.setItem('jwt', data.jwt);
                 userSignedIn(dispatch, data.user);
