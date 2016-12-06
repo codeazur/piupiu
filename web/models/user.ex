@@ -1,6 +1,10 @@
 defmodule Piupiu.User do
   use Piupiu.Web, :model
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
+
+  @derive {Phoenix.Param, key: :id}
   @derive {Poison.Encoder, only: [:id, :email, :account]}
 
   @email_regex ~r/^[A-Z0-9][A-Z0-9._%+-]{0,63}@(?:(?=[A-Z0-9-]{1,63}\.)[A-Z0-9]+(?:-[A-Z0-9]+)*\.){1,8}[A-Z]{2,63}$/i

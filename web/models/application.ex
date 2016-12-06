@@ -1,10 +1,12 @@
 defmodule Piupiu.Application do
   use Piupiu.Web, :model
 
+  @foreign_key_type :binary_id
+
   schema "applications" do
     field :name, :string
     field :url, :string
-    
+
     belongs_to :user, Piupiu.User
 
     timestamps()

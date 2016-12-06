@@ -1,6 +1,9 @@
 defmodule Piupiu.Account do
   use Piupiu.Web, :model
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+
+  @derive {Phoenix.Param, key: :id}
   @derive {Poison.Encoder, only: [:id, :username, :domain, :name, :description]}
 
   schema "accounts" do
