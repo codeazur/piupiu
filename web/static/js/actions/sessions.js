@@ -16,7 +16,6 @@ function userSignedOut(dispatch) {
 
 export function signUp(registration) {
     return dispatch => {
-        console.info({ registration })
         httpPost('/api/v1/registrations', { registration })
             .then(data => {
                 localStorage.setItem('jwt', data.jwt);
