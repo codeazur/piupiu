@@ -6,6 +6,8 @@ defmodule Piupiu.Account do
   @derive {Phoenix.Param, key: :id}
   @derive {Poison.Encoder, only: [:id, :username, :domain, :name, :description]}
 
+  @username_regex ~r/^[A-Z0-9_]+$/i
+
   schema "accounts" do
     field :username, :string
     field :domain, :string
@@ -21,6 +23,7 @@ defmodule Piupiu.Account do
     struct
     |> cast(params, [:username])
     |> validate_required([:username], message: "Please enter your username")
+    |> validate_format(:username, @username_regex, message: "Your username can only contain letters, numbers and underscores")
   end
 
   def changeset(struct, params \\ %{}) do
